@@ -15,6 +15,7 @@ const toggleReaction = async (
 ) => {
   const { email } = token;
 
+  const user = await User.findOne({ email });
   const user = await User.findOne({ email }).select("_id").lean();
 
   if (!user) {
@@ -24,6 +25,7 @@ const toggleReaction = async (
   const post = await Post.findOne({
     _id: postId,
     isDeleted: { $ne: true },
+  });
   }).select("likesCount reactions");
 
   if (!post) {
@@ -34,7 +36,7 @@ const toggleReaction = async (
     const newReaction = await Reaction.create({
       postId: new Types.ObjectId(postId),
       userId: user._id,
-      type: type,
+      type,
     });
 //  main
 //     };
