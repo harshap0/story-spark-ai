@@ -9,7 +9,6 @@ import { getUserInfo } from "./services/auth.service";
 
 import RootLayout from "./components/layout/root_layout.component";
 import DashboardLayout from "./components/dashboard/dashboard_layout.component";
-
 import AboutUsComponent from "./components/footer/about-us.tsx";
 import AnalyticsPage from "./components/dashboard/analytics/analytics.page";
 import BlogComponent from "./components/footer/blog.tsx";
@@ -45,6 +44,10 @@ import AnalyticsPage from "./components/dashboard/analytics/analytics.page";
 import StoryWorkspace from "./components/story/StoryWorkspace";
 import ResourceDetailComponent from "./components/community/resource_detail.component";
 import ResourcesListComponent from "./components/community/resources_list.component";
+import SettingComponent from "./components/dashboard/settings/settings.component";
+import SignUpComponent from "./components/signup/signup.component";
+import SimpleProtectedRoute from "./components/ProtectedRoute";
+
 import ScrollToTop from "./components/ScrollToTop";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import SettingComponent from "./components/dashboard/settings/settings.component";
