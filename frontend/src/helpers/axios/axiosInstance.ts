@@ -81,11 +81,11 @@ export const setupAxiosInterceptors = () => {
       if (error.code === "ERR_NETWORK") {
         errorObject = {
           statusCode: 503,
-          message: "Service Unavailable - The server is currently unreachable",
+          message: "Please check your internet connection and try again.",
           errorMessages: [
             {
               path: "",
-              message: "The server is currently unavailable. Please try again later.",
+              message: "Unable to reach the server. Please check your internet connection or try again later.",
             },
           ],
         };
