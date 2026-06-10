@@ -179,6 +179,47 @@ const SignUpComponent = () => {
     }
   };
 
+  const handleResendOtp = async () => {
+    if (cooldown > 0 || isBusy) return;
+    if (!registerInfo) {
+      toast.error("Registration info is missing. Please restart signup.");
+      return;
+    }
+    setIsBusy(true);
+    try {
+      const res = await emailVerify({ name: registerInfo.name, email: registerInfo.email }).unwrap();
+      if (res?.data) {
+        const { expiresAt } = res.data;
+        setExpiredAt(new Date(expiresAt).getTime());
+        toast.success("OTP resent successfully!");
+        setValue("otp", "");
+        setCooldown(60);
+      }
+    } catch (error) {
+      const err = error as { data?: Array<{ message?: string }>; message?: string };
+      const message =
+        err?.data?.[0]?.message ||
+        err?.message ||
+        "Failed to resend OTP. Please try again.";
+      toast.error(message);
+      console.log("resend error: ", error);
+    } finally {
+      setIsBusy(false);
+    }
+  };
+
+  const handleBack = () => {
+    setShowOtpField(false);
+    setTimeout(() => {
+      if (registerInfo) {
+        setValue("name", registerInfo.name);
+        setValue("email", registerInfo.email);
+        setValue("password", registerInfo.password);
+        setValue("confirmPassword", registerInfo.password);
+      }
+    }, 0);
+  };
+
   const handleOtpValidation = async () => {
     const enteredOtp = otp?.trim();
     if (!enteredOtp) {
@@ -384,6 +425,18 @@ const SignUpComponent = () => {
             </form>
           ) : (
             <div className="grid grid-cols-1 gap-5 w-full min-w-0 box-border">
+              <div className="text-center text-sm text-slate-400 select-none">
+                OTP sent to <span className="font-semibold text-blue-400">{registerInfo?.email}</span>
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  disabled={isBusy}
+                  className="ml-2 text-xs font-bold text-blue-400 hover:text-blue-300 hover:underline transition-colors focus:outline-none cursor-pointer"
+                >
+                  Change
+                </button>
+              </div>
+
               <div className="w-full min-w-0 box-border">
                 <SSInput
                   label="OTP"
@@ -411,7 +464,15 @@ const SignUpComponent = () => {
                 />
               </div>
 
-              <div className="text-center pt-1 select-none">
+              <div className="flex justify-between items-center pt-1 px-1 select-none w-full">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  disabled={isBusy}
+                  className="text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-300 transition-colors duration-150 focus:outline-none cursor-pointer"
+                >
+                  ← Go Back
+                </button>
                 <button
                   type="button"
                   onClick={handleResendOtp}
