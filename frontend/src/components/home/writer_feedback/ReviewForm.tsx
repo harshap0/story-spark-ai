@@ -306,8 +306,7 @@ const ReviewForm = () => {
   </div>
 </div>
   );
-    </div>
-  );
+  
 };
 
 export default ReviewForm;

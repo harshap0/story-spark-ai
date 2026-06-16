@@ -101,14 +101,16 @@ const router = createBrowserRouter([
       { path: "terms", element: <Terms /> },
       { path: "help-center", element: <HelpCenterComponent /> },
       { path: "guidelines", element: <GuidelinesComponent /> },
-      { path: "contributors", element: <SafeContributorsComponent /> },
+      
       { path: "contributors", element: <ContributorsComponent /> },
       { path: "community", element: <CommunityComponent /> },
+      { path: "explore", element: <ExploreComponent /> },
       { path: "report-bug", element: <ReportBug /> },
+
       {
         element: <ProtectedRoute allowedRoles={ALL_ROLES} />,
         children: [
-          { path: "explore", element: <ExploreComponent /> },
+        
           { path: "bookmarks", element: <BookmarksComponent /> },
           { path: "resources", element: <ResourcesListComponent /> },
           { path: "resources/:resourceName", element: <ResourceDetailComponent /> },
