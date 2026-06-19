@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaXTwitter } from "react-icons/fa6";
+import type { IconType } from "react-icons";
 import logo from "../../assets/logoNew.png";
 
 const DEFAULT_GITHUB_ISSUES_URL =
@@ -73,7 +74,7 @@ const FooterComponent: React.FC = () => {
   ];
 
   const legalLinks = [
-    { label: "Privacy", to: "/privacy-policy" },
+    { label: "Privacy Policy", to: "/privacy-policy" },
     { label: "Cookie Policy", to: "/cookie-policy" },
     { label: "Terms & Conditions", to: "/terms" },
     { label: "Guidelines", to: "/guidelines" },
@@ -81,7 +82,7 @@ const FooterComponent: React.FC = () => {
 
   const socialLinks = [
     { icon: "fa-linkedin", url: "https://www.linkedin.com/in/ronisarkar76/", label: "Connect with us on LinkedIn" },
-    { icon: "fa-twitter", url: "https://x.com/ronisarkar_exe", label: "Follow us on X (Twitter)" },
+    { icon: "fa-x-twitter", url: "https://x.com/ronisarkar_exe", label: "Follow us on X" },
     { icon: "fa-github", url: "https://github.com/ronisarkarexe", label: "Check out GitHub" },
     { icon: "fa-envelope", url: "mailto:ronichandrasarkar@gmail.com", label: "Email us" },
   ];
@@ -205,7 +206,7 @@ const FooterComponent: React.FC = () => {
             </h3>
             <ul className="flex flex-col gap-[12.5px]">
               {socialLinks.map((item) => (
-                <li key={item.icon}>
+                <li key={item.label}>
                   <a
                     href={item.url}
                     target="_blank"
@@ -213,16 +214,16 @@ const FooterComponent: React.FC = () => {
                     aria-label={item.label}
                     className="group flex items-center gap-2.5 text-[14px] text-slate-300/85 hover:text-blue-300 transition-all duration-200"
                   >
-                    {item.icon === "fa-x-twitter" ? (
-                      <FaXTwitter className="text-[15px] text-slate-400 group-hover:text-blue-300 transition-colors" />
-                    ) : (
+                    {item.type === "fa" ? (
                       <i
                         className={`fa-brands ${item.icon} text-[15px] text-slate-400 group-hover:text-blue-300 transition-colors`}
                       />
+                    ) : (
+                      <item.Icon className="text-[15px] text-slate-400 group-hover:text-blue-300 transition-colors" />
                     )}
                     <span className="capitalize">
                       {item.icon === "fa-x-twitter"
-                        ? "X (Twitter)"
+                        ? "X"
                         : item.icon.replace("fa-", "")}
                     </span>
                   </a>
@@ -240,6 +241,7 @@ const FooterComponent: React.FC = () => {
               Writing tips, product updates, and stories straight to your inbox.
             </p>
 
+<<<<<<< HEAD
           <form
             onSubmit={handleSubscribe}
             noValidate
@@ -265,6 +267,40 @@ const FooterComponent: React.FC = () => {
               {status === "loading" ? "..." : "Subscribe"}
             </button>
            </form>
+=======
+            <form
+              onSubmit={handleSubscribe}
+              noValidate
+              className="mt-1 flex flex-col gap-2"
+            >
+              <div className="flex items-center gap-2 h-11 rounded-lg bg-[#0B1228]/60 px-3 border border-white/[0.06]">
+                <i
+                  className="fa-solid fa-envelope text-slate-500 text-[13px]"
+                  aria-hidden="true"
+                />
+                <input
+                  id="newsletter-email-footer"
+                  name="email"
+                  autoComplete="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@storyspark.ai"
+                  disabled={status === "loading"}
+                  className="w-full h-full bg-transparent text-[13px] text-white placeholder-slate-500 focus:outline-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="self-start h-8 px-3 rounded-md bg-gradient-to-r from-blue-500 to-indigo-500 text-[11px] font-medium text-white hover:from-blue-400 hover:to-indigo-400 active:scale-95 transition-all duration-200 disabled:opacity-60 cursor-pointer"
+              >
+                {status === "loading" ? "..." : "Subscribe"}
+              </button>
+            </form>
+
+>>>>>>> upstream/main
             <div aria-live="polite" role="status">
               {status === "success" && (
                 <p className="text-[12.5px] text-green-400 mt-1">{message}</p>
