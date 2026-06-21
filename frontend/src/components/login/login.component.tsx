@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SSInput from "../ui-component/ss-input/ss-input";
 import SSButton from "../ui-component/ss-button/ss-button";
 import { motion } from "framer-motion";
@@ -10,10 +9,7 @@ import {
   useLoginUserMutation,
   useGoogleLoginMutation,
 } from "../../redux/apis/auth.api";
-import { storeUserInfo, getUserInfo } from "../../services/auth.service";
-import { USER_ROLE } from "../../constants/role";
-import RedirectComponent from "../redirect.component";
-
+import AuthContext from "../auth.context";
 import toast, { Toaster } from "react-hot-toast";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { WandSparkles, BookOpen, UsersRound } from "lucide-react";
@@ -34,8 +30,10 @@ const LoginComponent = () => {
     formState: { errors },
   } = useForm<Inputs>({ mode: "onChange" });
 
-  const [isBusy, setIsBusy] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { login } = useContext(AuthContext) ?? { login: () => {} };
+  const [isBusy, setIsBusy] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsBusy(true);
@@ -43,8 +41,9 @@ const LoginComponent = () => {
       const res = await loginUser({ ...data }).unwrap();
       if (res.data.accessToken) {
         toast.success("User logged in successfully!");
-        storeUserInfo({ accessToken: res.data.accessToken });
-        setIsLoggedIn(true);
+        login(res.data.accessToken);
+        const from = location.state?.from || "/dashboard";
+        navigate(from, { replace: true });
       }
     } catch {
       toast.error("Login failed. Please check your credentials.");
@@ -67,10 +66,9 @@ const LoginComponent = () => {
       }).unwrap();
       if (res.data.accessToken) {
         toast.success("User logged in successfully with Google!");
-        storeUserInfo({
-          accessToken: res.data.accessToken,
-        });
-        setIsLoggedIn(true);
+        login(res.data.accessToken);
+        const from = location.state?.from || "/dashboard";
+        navigate(from, { replace: true });
       }
     } catch {
       toast.error("Failed to login with Google. Please try again.");
@@ -82,14 +80,6 @@ const LoginComponent = () => {
   const handleGoogleLoginError = () => {
     toast.error("Google login failed. Please try again.");
   };
-
-  if (isLoggedIn) {
-    return (
-      <RedirectComponent
-        defaultPath="/dashboard"
-      />
-    );
-  }
 
   return (
 
@@ -218,19 +208,10 @@ const LoginComponent = () => {
           </div>
 
 
-          <form className="space-y-5 w-full min-w-0 box-border" onSubmit={handleSubmit(onSubmit)}>
-
-            <SSInput
-              label="Email address"
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              required={true}
-              icon="fi fi-rr-envelope"
-              register={register}
-              validation={{ required: "Email is required" }}
-              error={errors.email}
-              autoComplete="email"
+            <div className="flex justify-center w-full  max-w-full overflow-x-hidden">
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={handleGoogleLoginError}
               />
 
             {/* Password field — eye icon toggle is provided by SSInput when type="password" */}
