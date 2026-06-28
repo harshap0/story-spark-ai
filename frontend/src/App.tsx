@@ -51,6 +51,7 @@ const ResourceDetailComponent = lazy(() => import("./components/community/resour
 const StoriesComponent = lazy(() => import("./components/stories/stories.component"));
 const BranchingStory = lazy(() => import("./components/stories/BranchingStory"));
 const StoryWorkspace = lazy(() => import("./components/story/StoryWorkspace"));
+const CollectionPage = lazy(() => import("./components/collections/CollectionPage"));
 const CollabHome = lazy(() => import("./components/collab/CollabHome"));
 const CollabRoom = lazy(() => import("./components/collab/CollabRoom"));
 const DashboardComponent = lazy(() => import("./components/dashboard/dashboard.component"));
@@ -86,6 +87,26 @@ const router = createBrowserRouter([
       { index: true, element: <><HeroSectionComponent /><HomeComponent /></> },
       { path: "templates", element: lazyPage(<TemplatesComponent />) },
       { path: "create", element: <Navigate to="/stories" replace /> },
+      { path: "writing-assistant", element: <ProtectedRoute allowedRoles={ALL_ROLES}><WritingAssistantComponent /></ProtectedRoute>, },
+      { path: "story-inspiration", element: <StoryInspirationWrapper /> },
+      { path: "login", element: <LoginComponent /> },
+      { path: "signup", element: <SignUpComponent /> },
+      { path: "forgot-password", element: <ForgotPasswordComponent /> },
+      { path: "pricing", element: <PricingComponent /> },
+      { path: "post/:id", element: <PostDetailsComponent /> },
+      { path: "profile/:id", element: <PublicProfileComponent /> },
+      { path: "collections/:id", element: lazyPage(<CollectionPage />) },
+      { path: "contact-us", element: <Contact /> },
+      { path: "about-us", element: <AboutUsComponent /> },
+      { path: "career", element: <CareerComponent /> },
+      { path: "blog", element: <BlogComponent /> },
+      { path: "privacy-policy", element: <PrivacyPolicy /> },
+      { path: "cookie-policy", element: <CookiePolicy /> },
+      { path: "terms", element: <Terms /> },
+      { path: "help-center", element: <HelpCenterComponent /> },
+      { path: "guidelines", element: <GuidelinesComponent /> },
+      
+      { path: "contributors", element: <ContributorsComponent /> },
       { path: "writing-assistant", element: <ProtectedRoute allowedRoles={ALL_ROLES}>{lazyPage(<WritingAssistantComponent />)}</ProtectedRoute> },
       { path: "story-inspiration", element: lazyPage(<StoryInspirationWrapper />) },
       { path: "login", element: lazyPage(<LoginComponent />) },
