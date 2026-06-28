@@ -219,7 +219,6 @@ const CookieConsentBanner: FC<CookieConsentBannerProps> = ({ onLayoutChange }) =
           </button>
         </div>
       </div>
-      </div>
     </div>
   );
 };

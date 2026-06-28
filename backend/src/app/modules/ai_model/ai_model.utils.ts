@@ -750,15 +750,15 @@ Rules:
           httpStatus.BAD_GATEWAY,
           "Invalid AI response: Storyboard scenes are malformed.",
         );
+      
       }
-    );
-
       return {
         sceneNumber: index + 1,
         caption: scene.caption.trim(),
         imagePrompt: scene.imagePrompt.trim(),
       };
     });
+
 
     if (typeof parsed?.styleGuide !== "string" || !parsed.styleGuide.trim()) {
       throw new ApiError(

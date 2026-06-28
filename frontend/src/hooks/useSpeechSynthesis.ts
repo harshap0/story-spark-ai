@@ -112,7 +112,7 @@ const getLanguageLabel = (lang: string): string => {
   }
 };
 
-,const buildWordRanges = (inputText: string): WordRange[] => {
+const buildWordRanges = (inputText: string): WordRange[] => {
   if (!inputText.trim()) {
     return [];
   }
@@ -174,13 +174,13 @@ export const useSpeechSynthesis = (
     setIsSpeaking(true);
   };
 
+  // ✅ Fix - remove the ", [])"
   const stop = () => {
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
     setIsPaused(false);
     setCurrentWordIndex(0);
-  }, []);
-
+  };
   useEffect(() => {
     if (!hasSpeechSupport()) {
       setIsSupported(false);

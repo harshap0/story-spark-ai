@@ -1,19 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import SSInput from "../ui-component/ss-input/ss-input";
 import SSButton from "../ui-component/ss-button/ss-button";
 import { motion } from "framer-motion";
-
-import {
-  useLoginUserMutation,
-  useGoogleLoginMutation,
-} from "../../redux/apis/auth.api";
+import { useLoginUserMutation, useGoogleLoginMutation } from "../../redux/apis/auth.api";
 import AuthContext from "../auth.context";
 import toast, { Toaster } from "react-hot-toast";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
-import { WandSparkles, BookOpen, UsersRound } from "lucide-react";
-
+import { WandSparkles } from "lucide-react";
 
 type Inputs = {
   email: string;
@@ -52,18 +47,10 @@ const LoginComponent = () => {
     }
   };
 
-  const handleGoogleLoginSuccess = async (
-    credentialResponse: CredentialResponse
-  ) => {
-  const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse,) => {
-
   const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-
     setIsBusy(true);
     try {
-      const res = await googleLogin({
-        token: credentialResponse.credential,
-      }).unwrap();
+      const res = await googleLogin({ token: credentialResponse.credential }).unwrap();
       if (res.data.accessToken) {
         toast.success("User logged in successfully with Google!");
         login(res.data.accessToken);
@@ -82,53 +69,28 @@ const LoginComponent = () => {
   };
 
   return (
-
-    <div className="min-h-screen bg-white dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 flex items-center justify-center relative overflow-hidden p-4 sm:p-8 box-border">
-
-      {/* Background Glow */}
-      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="flex w-full max-w-5xl flex-row justify-center gap-16 py-12 relative z-10 box-border items-center">
-        {/* Left side — feature highlights */}
-        <div className="hidden lg:flex flex-col gap-5 max-w-sm">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-700 bg-clip-text text-transparent">
-            Turns Ideas into
-            <br />
-            unforgettable stories
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400">
-            AI powered storytelling that helps you
-            <br />
-            create, connect &amp; inspire.
-          </p>
-      <motion.div 
+    <div className="min-h-screen bg-white dark:bg-[#0B1120] text-slate-900 dark:text-slate-100 flex items-center justify-center relative overflow-hidden p-4 sm:p-8">
+      <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5 }}
-        className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" 
+        className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"
       />
-
-
-      <div className="flex w-full max-w-md flex-col justify-center py-6 relative z-10">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5, delay: 0.2 }}
-        className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" 
+        className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"
       />
 
-      {/* Main Grid Layout Container */}
-      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10 box-border">
-        
-        {/* Left Column — Informational Cards */}
-        <motion.div 
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
+        {/* Left Column */}
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col justify-center gap-6 w-full max-w-md mx-auto box-border"
+          className="hidden lg:flex flex-col justify-center gap-6 w-full max-w-md mx-auto"
         >
-          {/* Brand headline */}
           <div className="mb-1">
             <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
               Your stories,{" "}
@@ -141,7 +103,6 @@ const LoginComponent = () => {
             </p>
           </div>
 
-          {/* Feature cards */}
           <div className="space-y-3">
             <div className="flex items-start gap-4 rounded-2xl border border-violet-200/60 dark:border-violet-800/40 bg-violet-50 dark:bg-violet-950/40 p-4">
               <div className="mt-0.5 shrink-0 rounded-xl border border-white/80 bg-white dark:bg-slate-800/80 p-2 shadow-sm">
@@ -149,9 +110,12 @@ const LoginComponent = () => {
               </div>
               <div>
                 <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Smart AI Writing</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">AI that understands your creative style and helps you break through blocks.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                  AI that understands your creative style and helps you break through blocks.
+                </p>
               </div>
             </div>
+
             <div className="flex items-start gap-4 rounded-2xl border border-blue-200/60 dark:border-blue-800/40 bg-blue-50 dark:bg-blue-950/40 p-4">
               <div className="mt-0.5 shrink-0 rounded-xl border border-white/80 bg-white dark:bg-slate-800/80 p-2 shadow-sm">
                 <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -160,9 +124,12 @@ const LoginComponent = () => {
               </div>
               <div>
                 <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Infinite Variations</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">Generate multiple unique story branches from a single prompt.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                  Generate multiple unique story branches from a single prompt.
+                </p>
               </div>
             </div>
+
             <div className="flex items-start gap-4 rounded-2xl border border-pink-200/60 dark:border-pink-800/40 bg-pink-50 dark:bg-pink-950/40 p-4">
               <div className="mt-0.5 shrink-0 rounded-xl border border-white/80 bg-white dark:bg-slate-800/80 p-2 shadow-sm">
                 <svg className="w-5 h-5 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -171,26 +138,16 @@ const LoginComponent = () => {
               </div>
               <div>
                 <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Community Driven</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">Publish, get feedback, and collaborate with a thriving creative ecosystem.</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                  Publish, get feedback, and collaborate with a thriving creative ecosystem.
+                </p>
               </div>
             </div>
           </div>
         </motion.div>
 
-                <div className="flex justify-center w-full box-border">
-          <div className="w-full max-w-md bg-slate-50 dark:bg-slate-800/60 backdrop-blur-xl border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl box-border overflow-hidden relative mx-auto">
-            <button
-              onClick={() => (window.location.href = "/")}
-              className="mb-4 text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center gap-2 cursor-pointer"
-            >
-              ← Back to Home
-            </button>
-
-
-        {/* Right side — login form card */}
-
-        <div className="w-full max-w-md bg-slate-50 dark:bg-slate-800/60 backdrop-blur-xl border border-slate-200 dark:border-slate-700/50 rounded-2xl p-8 sm:p-10 shadow-2xl box-border overflow-hidden relative">
-          {/* Back to Home */}
+        {/* Right Column — Login Form */}
+        <div className="w-full max-w-md mx-auto bg-slate-50 dark:bg-slate-800/60 backdrop-blur-xl border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl">
           <button
             onClick={() => (window.location.href = "/")}
             className="mb-4 text-sm text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center gap-2 cursor-pointer"
@@ -207,14 +164,19 @@ const LoginComponent = () => {
             </p>
           </div>
 
-
-            <div className="flex justify-center w-full  max-w-full overflow-x-hidden">
-              <GoogleLogin
-                onSuccess={handleGoogleLoginSuccess}
-                onError={handleGoogleLoginError}
-              />
-
-            {/* Password field — eye icon toggle is provided by SSInput when type="password" */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <SSInput
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              required={true}
+              icon="fi fi-rr-envelope"
+              register={register}
+              validation={{ required: "Email is required" }}
+              error={errors.email}
+              autoComplete="email"
+            />
             <SSInput
               label="Password"
               name="password"
@@ -227,7 +189,6 @@ const LoginComponent = () => {
               error={errors.password}
               autoComplete="password"
             />
-
             <div className="flex justify-end -mt-2">
               <Link
                 to="/forgot-password"
@@ -236,32 +197,21 @@ const LoginComponent = () => {
                 Forgot Password?
               </Link>
             </div>
-
             <SSButton text="Sign In" type="submit" isLoading={isBusy} />
           </form>
 
           <div className="mt-6 relative w-full">
-            <div className="absolute inset-0 flex items-center w-full">
+            <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-slate-200 dark:border-slate-700" />
             </div>
-            <div className="relative flex justify-center text-sm w-full">
-              <span className="px-4 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
-                OR
-
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white dark:bg-slate-900 px-4 text-slate-400 dark:text-slate-500 font-semibold tracking-wide">
+              <span className="bg-slate-50 dark:bg-slate-800/60 px-4 text-slate-400 font-semibold tracking-wide">
                 Or
-
               </span>
             </div>
           </div>
 
-          <div className="mt-6 flex justify-center list-none w-full">
-          {/* Social Identity OAuth Block Container */}          <div className="flex justify-center w-full box-border">
-
-          {/* Social Identity OAuth Block Container */}
-          <div className="flex justify-center list-none w-full box-border">
-
+          <div className="mt-6 flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleLoginSuccess}
               onError={handleGoogleLoginError}
@@ -270,8 +220,6 @@ const LoginComponent = () => {
 
           <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
             Don&apos;t have an account?{" "}
-          <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">
-            Don't have an account?{" "}
             <Link
               to="/signup"
               className="font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-200"
@@ -281,10 +229,6 @@ const LoginComponent = () => {
           </p>
         </div>
       </div>
-
-        </div>
-      </div>
-
 
       <Toaster position="top-right" reverseOrder={false} />
     </div>

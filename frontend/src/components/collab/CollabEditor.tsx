@@ -54,7 +54,7 @@ export default function CollabEditor({ storyId, userId, username, userColor }: C
     const binding = new QuillBinding(ytext, quill);
 
     // Setup awareness for presence
-    const Awareness = require('y-protocols/awareness').Awareness;
+    import { Awareness } from 'y-protocols/awareness';
     const awareness = new Awareness(ydoc);
     awarenessRef.current = awareness;
     awareness.setLocalStateField('user', {

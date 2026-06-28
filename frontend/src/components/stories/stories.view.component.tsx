@@ -5,7 +5,7 @@ import StoryMoodDashboard from "./StoryMoodDashboard";
 import StoryTitleSuggestions from "./StoryTitleSuggestions";
 import StoryVersionHistory from "./StoryVersionHistory";
 import { CharacterProfile } from "./stories.utils";
-import React, { useEffect, useState, useRef, useMemo } from "react";
+
 import { getShortenedText, ITopicData, topicsData, getWordCount, SELECTED_TOPIC_CLASSES } from "./stories.utils";
 import { formatReadingStats } from "../../utils/story-utils";
 import toast, { Toaster } from "react-hot-toast";
@@ -383,7 +383,7 @@ const handleGenerateCharacterProfile = async () => {
                     );
                   })
                 ) : (
-                  DOMPurify.sanitize(selectedStory.content)
+                  
                   (() => {
                     const rawParts = selectedStory.content.split(/(\s+)/);
                     let wordOffset = 0;
@@ -457,6 +457,7 @@ const handleGenerateCharacterProfile = async () => {
                 >
                   <i className="fa-solid fa-rotate-left"></i> Reset to Original
                 </button>
+              )}
               {selectedStory ? (
                 <p className="break-words">{selectedStory.content}</p>
               ) : (
